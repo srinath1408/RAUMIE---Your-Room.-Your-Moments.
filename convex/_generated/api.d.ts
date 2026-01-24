@@ -9,6 +9,7 @@
  */
 
 import type * as friends from "../friends.js";
+import type * as media from "../media.js";
 import type * as rooms from "../rooms.js";
 import type * as utils from "../utils.js";
 
@@ -20,6 +21,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   friends: typeof friends;
+  media: typeof media;
   rooms: typeof rooms;
   utils: typeof utils;
 }>;

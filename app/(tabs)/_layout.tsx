@@ -1,7 +1,7 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 import React from 'react';
-import { Pressable } from 'react-native';
+import { Alert, Pressable } from 'react-native';
 
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 import { useColorScheme } from '@/components/useColorScheme';
@@ -19,6 +19,7 @@ import { useAuth } from '@clerk/clerk-expo';
 import { Redirect } from 'expo-router';
 
 export default function TabLayout() {
+  const router = useRouter();
   const colorScheme = useColorScheme();
   const { isSignedIn, isLoaded } = useAuth();
 
@@ -50,18 +51,22 @@ export default function TabLayout() {
           title: 'Rooms',
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
-            <Link href="/create-room" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="plus"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+            <Pressable onPress={() => {
+              Alert.alert("New Room", "What would you like to do?", [
+                { text: "Create a Room", onPress: () => router.push("/create-room") },
+                { text: "Join with Code", onPress: () => router.push("/join-room") },
+                { text: "Cancel", style: "cancel" }
+              ]);
+            }}>
+              {({ pressed }) => (
+                <FontAwesome
+                  name="plus"
+                  size={25}
+                  color={Colors[colorScheme ?? 'light'].text}
+                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                />
+              )}
+            </Pressable>
           ),
         }}
       />

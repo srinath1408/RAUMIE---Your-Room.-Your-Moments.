@@ -3,13 +3,18 @@ import { ConvexReactClient } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { Slot } from "expo-router";
 
+import { tokenCache } from "@/utils/clerk";
+
 const convex = new ConvexReactClient(
   process.env.EXPO_PUBLIC_CONVEX_URL!
 );
 
 export default function RootLayout() {
   return (
-    <ClerkProvider publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}>
+    <ClerkProvider
+      publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
+      tokenCache={tokenCache}
+    >
       <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
         <Slot />
       </ConvexProviderWithClerk>

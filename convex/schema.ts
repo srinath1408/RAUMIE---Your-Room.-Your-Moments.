@@ -27,11 +27,14 @@ export default defineSchema({
 
     media: defineTable({
         roomId: v.id("rooms"),
-        storageId: v.string(), // S3 or Convex Storage ID
+        storageId: v.id("_storage"), // Convex Storage ID
         type: v.union(v.literal("image"), v.literal("video")),
+        mimeType: v.string(), // e.g. "image/jpeg"
         userId: v.string(), // Uploader
-        caption: v.optional(v.string()),
-        takenAt: v.number(), // Timestamp
+        encryption: v.object({
+            iv: v.string(),
+            keyVersion: v.optional(v.string()),
+        }),
     })
         .index("by_roomId", ["roomId"]),
 });
